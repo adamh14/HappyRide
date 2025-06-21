@@ -1,75 +1,121 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// Typ pro definování vlastností tlačítka pro lepší znovupoužitelnost
+type RoleButtonProps = {
+  iconName: string;
+  title: string;
+  onPress: () => void;
+  color: string;
+};
 
-export default function HomeScreen() {
+// Komponenta pro jedno tlačítko, aby byl kód přehlednější
+const RoleButton = ({ iconName, title, onPress, color }: RoleButtonProps) => (
+  <TouchableOpacity
+    style={[styles.button, { backgroundColor: color }]}
+    onPress={onPress}
+    activeOpacity={0.7}
+  >
+    <Icon name={iconName} size={40} color="#fff" style={styles.icon} />
+    <Text style={styles.buttonText}>{title}</Text>
+  </TouchableOpacity>
+);
+
+export default function WelcomeScreen() {
+  // Funkce, která se zavolá po stisku tlačítka.
+  // V reálné aplikaci by zde byla logika pro navigaci.
+  const handlePress = (role: string) => {
+    console.log(`Navigace do modulu: ${role}`);
+    // Příklad s navigací (pokud používáte Expo Router):
+    // import { router } from 'expo-router';
+    // router.push(`/${role.toLowerCase()}`);
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.title}>Vítejte</Text>
+        <Text style={styles.subtitle}>Zvolte prosím svou roli pro pokračování</Text>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <RoleButton
+          title="Uživatel"
+          iconName="account-group"
+          color="#3498db"
+          onPress={() => handlePress('Uživatel')}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <RoleButton
+          title="Dopravní podnik"
+          iconName="office-building"
+          color="#2ecc71"
+          onPress={() => handlePress('Dopravní podnik')}
+        />
+        <RoleButton
+          title="Řidič"
+          iconName="steering"
+          color="#e67e22"
+          onPress={() => handlePress('Řidič')}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#2c3e50',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 50,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 42,
+    fontWeight: 'bold',
+    color: '#ecf0f1',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#bdc3c7',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    width: '85%',
+  },
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    paddingVertical: 20,
+    paddingHorizontal: 25,
+    borderRadius: 15,
+    marginBottom: 20,
+    elevation: 5, // Stín pro Android
+    shadowColor: '#000', // Stín pro iOS
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  icon: {
+    marginRight: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 22,
+    fontWeight: '600',
   },
 });
