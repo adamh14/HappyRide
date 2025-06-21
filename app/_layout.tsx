@@ -23,6 +23,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="modules/driver" options={{ title: 'Profil Řidiče' }} />
+        <Stack.Screen name="modules/driver/ride" options={{ title: 'Jízda' }} />
         <Stack.Screen name="modules/user" options={{ title: 'Profil Uživatel' }} />
         <Stack.Screen name="modules/Dopravni_podnik" options={{ title: 'Dopravni_podnik' }} />
       </Stack>
