@@ -26,7 +26,7 @@ import Animated, {
 let MapView: any = null;
 let Marker: any = null;
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const Maps = require('react-native-maps');
   MapView = Maps.default;
   Marker = Maps.Marker;
@@ -290,11 +290,6 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: 3,
     borderColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   userDot: {
     width: 16,
@@ -303,11 +298,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
     borderWidth: 3,
     borderColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
 
   /* panel */
@@ -327,14 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    maxHeight: '70%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -5 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 15,
+    padding: 20,
   },
   driverPanel: { paddingBottom: 20 },
   driverHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },

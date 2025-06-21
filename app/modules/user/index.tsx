@@ -30,6 +30,7 @@ export default function Index() {
   const [tripSchedules, setTripSchedules] = useState(
     service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
       Linka: dep.line,
+      Spoj: dep.service,
       arrival: dep.departureTime
     }))
 
@@ -48,10 +49,11 @@ export default function Index() {
     console.log("Button pressed, starting animations");
 
     setTripSchedules(
-      service.findDeparturesFromStop(query).map((dep) => ({
-        Linka: dep.line,
-        arrival: dep.departureTime
-      }))
+      service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      Spoj: dep.service,
+      arrival: dep.departureTime
+    }))
     );
 
     setIsExpanded(true);
@@ -104,14 +106,22 @@ export default function Index() {
 
   const handleSearch = () => {
     console.log("Search query:", query);
-    setTripSchedules(
-      service.findDeparturesFromStop(query).map((dep) => ({
-        Linka: dep.line,
-        arrival: dep.departureTime
-          ? new Date(dep.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : 'N/A'
-      }))
-    );
+    service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      Spoj: dep.service,
+      arrival: dep.departureTime
+    }));
+  };
+
+  const handleZastavka = (Linka: string, spoj: number) => {
+    console.log("Navigating to Zastavky");
+    router.push({
+      pathname: '/modules/zastavky',
+      params: { 
+        idSpoje: spoj, 
+        idLinky: Linka
+      },
+    });
   };
 
   return (
@@ -424,7 +434,7 @@ export default function Index() {
 
                     <TouchableOpacity style={{
                       padding: 0
-                    }}>
+                    }} onPress={() => handleZastavka(trip.Linka, trip.Spoj)}>
                       <MaterialIcons name="more-vert" size={22} color="#a0aec0" />
                     </TouchableOpacity>
                   </View>
