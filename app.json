@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HappyRide",
-    "slug": "HappyRide",
+    "slug": "happyride",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -39,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6908d78a-dceb-4e58-b53d-6f74d6a273eb"
+      }
+    },
+    "owner": "adam14"
   }
 }
