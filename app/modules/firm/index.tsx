@@ -64,8 +64,10 @@ export default function Index() {
       name: 'Jan Novák',
       busNumber: '127',
       station: 'ID: 1',
+      // anonymní avatar
+      
       avatar:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face',
       latitude: 50.0875,
       longitude: 14.42,
     },
@@ -91,7 +93,7 @@ export default function Index() {
     },
   ];
 
-  const userLocation = { latitude: 50.085, longitude: 14.437 };
+  const userLocation = { latitude: 50.111386, longitude: 14.439933 };
 
   /* ---------- obsluha panelu řidiče ---------- */
   const showPanel = () => {
@@ -154,7 +156,7 @@ export default function Index() {
             <Ionicons name="location" size={16} color="#4CAF50" />
             <Text style={styles.locationText}>Vaše poloha</Text>
           </View>
-          <Text style={styles.locationDetail}>Praha, CZ</Text>
+          <Text style={styles.locationDetail}>Partyzánská 18/23, 170 00 Praha 7-Holešovice</Text>
         </View>
         <TouchableOpacity style={styles.headerRight}>
           <Ionicons name="grid" size={24} color="#333" />
@@ -167,10 +169,10 @@ export default function Index() {
           <MapView
             style={styles.map}
             initialRegion={{
-              latitude: 50.0755,
-              longitude: 14.4378,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
+              latitude: 50.111386,
+              longitude: 14.439933,
+              latitudeDelta: 0.002,
+              longitudeDelta: 0.002,
             }}
           >
             {drivers.map((d, i) => (
@@ -184,9 +186,9 @@ export default function Index() {
                 </View>
               </Marker>
             ))}
-            <Marker coordinate={userLocation}>
+            {/* <Marker coordinate={userLocation}>
               <View style={styles.userDot} />
-            </Marker>
+            </Marker> */}
           </MapView>
         ) : (
           <View style={styles.mapFallback}>
