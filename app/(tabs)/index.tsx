@@ -9,18 +9,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Typ pro definování vlastností tlačítka pro lepší znovupoužitelnost
 type RoleButtonProps = {
-  icon: string;
+  iconName: string;
   title: string;
-  subtitle?: string;
   onPress: () => void;
   color: string;
 };
 
-// Komponenta pro jedno tlačítko s plynulými animacemi
-const RoleButton = ({ icon, title, subtitle, onPress, color }: RoleButtonProps) => {
+// Komponenta pro jedno tlačítko, aby byl kód přehlednější
+const RoleButton = ({ iconName, title, onPress, color }: RoleButtonProps) => {
   const scaleValue = React.useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
@@ -50,13 +50,8 @@ const RoleButton = ({ icon, title, subtitle, onPress, color }: RoleButtonProps) 
         onPressOut={handlePressOut}
         activeOpacity={0.9}
       >
-        <View style={styles.iconContainer}>
-          <Text style={styles.iconText}>{icon}</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.buttonText}>{title}</Text>
-          {subtitle && <Text style={styles.buttonText}>{subtitle}</Text>}
-        </View>
+        <Icon name={iconName} size={40} color="#fff" style={styles.icon} />
+        <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -64,21 +59,28 @@ const RoleButton = ({ icon, title, subtitle, onPress, color }: RoleButtonProps) 
 
 export default function WelcomeScreen() {
   // Funkce, která se zavolá po stisku tlačítka.
+  // V reálné aplikaci by zde byla logika pro navigaci.
   const handlePress = (role: string) => {
     console.log(`Navigace do modulu: ${role}`);
 
-    // Přidáme malé zpoždění pro lepší pocit z animace
     setTimeout(() => {
       if (role === 'Řidič') {
+        // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/ridic.js`
         router.push('/modules/driver');
       } else if (role === 'Uživatel') {
+        // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
         router.push('/modules/user');
       } else if (role === 'Dopravni_podnik') {
+        // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
         router.push('/modules/firm');
       } else {
+        // Zde můžete později přidat navigaci pro ostatní role
         alert(`Navigace pro roli "${role}" zatím není implementována.`);
       }
-    }, 150); // 150ms zpoždění pro dokončení animace
+    }, 150);
+    // Příklad s navigací (pokud používáte Expo Router):
+    // import { router } from 'expo-router';
+    // router.push(`/${role.toLowerCase()}`);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -91,35 +93,30 @@ export default function WelcomeScreen() {
         <View style={styles.gradientCircle3} />
       </View>
 
-      <View style={styles.content}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Vítejte</Text>
-          <Text style={styles.subtitle}>Zvolte prosím svou roli pro pokračování</Text>
-        </View>
+      <View style={styles.header}>
+        <Text style={styles.title}>Vítejte</Text>
+        <Text style={styles.subtitle}>Zvolte prosím svou roli pro pokračování</Text>
+      </View>
 
-        {/* Role Selection Buttons */}
-        <View style={styles.buttonContainer}>
-          <RoleButton
-            title="Uživatel"
-            icon="👥"
-            color="#4ade80"
-            onPress={() => handlePress('Uživatel')}
-          />
-          <RoleButton
-            title="Dopravní"
-            subtitle="podnik"
-            icon="🏢"
-            color="#059669"
-            onPress={() => handlePress('Dopravni_podnik')}
-          />
-          <RoleButton
-            title="Řidič"
-            icon="🚗"
-            color="#4ade80"
-            onPress={() => handlePress('Řidič')}
-          />
-        </View>
+      <View style={styles.buttonContainer}>
+        <RoleButton
+          title="Uživatel"
+          iconName="account-group"
+          color="#4ade80"
+          onPress={() => handlePress('Uživatel')}
+        />
+        <RoleButton
+          title="Dopravní podnik"
+          iconName="office-building"
+          color="#059669"
+          onPress={() => handlePress('Dopravni_podnik')}
+        />
+        <RoleButton
+          title="Řidič"
+          iconName="steering"
+          color="#4ade80"
+          onPress={() => handlePress('Řidič')}
+        />
       </View>
     </SafeAreaView>
   );
@@ -129,6 +126,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e0f2f1', // Light blue-green background
+    alignItems: 'center',
+    justifyContent: 'center',
     position: 'relative',
   },
   backgroundElements: {
@@ -165,63 +164,46 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(34, 197, 94, 0.08)',
     borderRadius: 60,
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
-    zIndex: 1,
-  },
   header: {
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: 50,
+    paddingHorizontal: 20,
+    zIndex: 1,
   },
   title: {
     fontSize: 48,
     fontWeight: 'bold',
     color: '#059669', // Green color for title
-    textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
     color: '#374151', // Dark gray for subtitle
     textAlign: 'center',
-    lineHeight: 24,
   },
   buttonContainer: {
-    gap: 16,
+    width: '85%',
+    zIndex: 1,
   },
   button: {
-    borderRadius: 24,
-    padding: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
+    paddingVertical: 24,
+    paddingHorizontal: 25,
+    borderRadius: 24,
+    marginBottom: 16,
+    elevation: 6, // Stín pro Android
+    shadowColor: '#000', // Stín pro iOS
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.15,
     shadowRadius: 16,
-    elevation: 6,
   },
-  iconContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 12,
-    padding: 12,
+  icon: {
     marginRight: 20,
-    width: 48,
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconText: {
-    fontSize: 24,
-    color: 'white',
-  },
-  textContainer: {
-    flex: 1,
   },
   buttonText: {
+    color: '#ffffff',
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'white',
   },
 });
