@@ -70,14 +70,14 @@ class TimetableService {
      * @param afterTime - Volitelný parametr, hledá odjezdy po tomto čase (formát "HH:MM").
      * @returns Pole objektů s informacemi o odjezdech, seřazené podle času.
      */
-    public findDeparturesFromStop(stopName: string, afterTime: string = "00:00"): { line: string; departureTime: string; finalStop: string }[] {
+    public findDeparturesFromStop(stopName: string, afterTime: string = "00:00"): { line: string; service: number, departureTime: string; finalStop: string }[] {
         const stopId = this.stopNameToId.get(stopName);
         if (!stopId) {
             console.error(`Zastávka "${stopName}" nebyla nalezena.`);
             return [];
         }
 
-        const departures: { line: string; departureTime: string; finalStop: string }[] = [];
+        const departures: { line: string; departureTime: string; finalStop: string, service: number }[] = [];
 
         this.data.timetable.lines.forEach(line => {
             line.services.forEach(service => {
@@ -88,6 +88,7 @@ class TimetableService {
                             line: line.lineNumber,
                             departureTime: stopEvent.departure,
                             finalStop: this.stopIdToName.get(finalStopId) || 'Neznámá konečná',
+                            service: service.id
                         });
                     }
                 });
