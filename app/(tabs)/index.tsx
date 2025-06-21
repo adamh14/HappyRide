@@ -41,9 +41,9 @@ export default function WelcomeScreen() {
     } else if (role === 'Uživatel') {
       // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
       router.push('/modules/user');
-    } else if (role === 'Uživatel') {
+    } else if (role === 'Dopravni_podnik') {
       // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
-      router.push('/modules/Dopravní_podnik');
+      router.push('/modules/firm');
     } else {
       // Zde můžete později přidat navigaci pro ostatní role
       alert(`Navigace pro roli "${role}" zatím není implementována.`);
@@ -72,7 +72,7 @@ export default function WelcomeScreen() {
           title="Dopravní podnik"
           iconName="office-building"
           color="#2ecc71"
-          onPress={() => handlePress('Dopravní_podnik')}
+          onPress={() => handlePress('Dopravni_podnik')}
         />
         <RoleButton
           title="Řidič"

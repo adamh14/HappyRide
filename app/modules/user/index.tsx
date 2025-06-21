@@ -1,14 +1,14 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from "react";
 import {
-    Animated,
-    Dimensions,
-    Easing,
-    ScrollView,
-    StatusBar,
-    Text,
-    TouchableOpacity,
-    View
+  Animated,
+  Dimensions,
+  Easing,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 
 const { width, height } = Dimensions.get('window');
@@ -27,11 +27,11 @@ export default function Index() {
     console.log("Button pressed, starting animations");
     setIsExpanded(true);
 
-    // Animace jména nahoru
+    // Animace jména nahoru - plynulý posun z centra nahoru
     Animated.timing(headerAnim, {
-      toValue: -100, // Posun nahoru
-      duration: 400,
-      easing: Easing.out(Easing.cubic),
+      toValue: -200, // Posun z centra nahoru
+      duration: 500,
+      easing: Easing.out(Easing.quad), // Plynulejší easing
       useNativeDriver: true,
     }).start();
 
@@ -52,8 +52,8 @@ export default function Index() {
     // Vrátit jméno zpět na střed
     Animated.timing(headerAnim, {
       toValue: 0,
-      duration: 300,
-      easing: Easing.in(Easing.cubic),
+      duration: 400,
+      easing: Easing.out(Easing.quad),
       useNativeDriver: true,
     }).start();
 
@@ -81,11 +81,10 @@ export default function Index() {
         paddingBottom: 30,
         zIndex: 3,
         transform: [{ translateY: headerAnim }],
-        position: isExpanded ? 'relative' : 'absolute',
-        top: isExpanded ? 0 : '50%',
+        position: 'absolute',
+        top: 0,
         left: 0,
-        right: 0,
-        marginTop: isExpanded ? 0 : -100
+        right: 0
       }}>
         <View style={{
           flexDirection: 'row',
