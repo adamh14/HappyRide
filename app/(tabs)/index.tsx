@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import React from 'react';
 import {
+  Animated,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -8,78 +9,117 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Typ pro definování vlastností tlačítka pro lepší znovupoužitelnost
 type RoleButtonProps = {
-  iconName: string;
+  icon: string;
   title: string;
+  subtitle?: string;
   onPress: () => void;
   color: string;
 };
 
-// Komponenta pro jedno tlačítko, aby byl kód přehlednější
-const RoleButton = ({ iconName, title, onPress, color }: RoleButtonProps) => (
-  <TouchableOpacity
-    style={[styles.button, { backgroundColor: color }]}
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
-    <Icon name={iconName} size={40} color="#fff" style={styles.icon} />
-    <Text style={styles.buttonText}>{title}</Text>
-  </TouchableOpacity>
-);
+// Komponenta pro jedno tlačítko s plynulými animacemi
+const RoleButton = ({ icon, title, subtitle, onPress, color }: RoleButtonProps) => {
+  const scaleValue = React.useRef(new Animated.Value(1)).current;
 
-export default function WelcomeScreen() {
-  // Funkce, která se zavolá po stisku tlačítka.
-  // V reálné aplikaci by zde byla logika pro navigaci.
-  const handlePress = (role: string) => {
-    console.log(`Navigace do modulu: ${role}`);
-    if (role === 'Řidič') {
-      // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/ridic.js`
-      router.push('/modules/driver');
-    } else if (role === 'Uživatel') {
-      // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
-      router.push('/modules/user');
-    } else if (role === 'Dopravni_podnik') {
-      // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
-      router.push('/modules/firm');
-    } else {
-      // Zde můžete později přidat navigaci pro ostatní role
-      alert(`Navigace pro roli "${role}" zatím není implementována.`);
-    }
-    // Příklad s navigací (pokud používáte Expo Router):
-    // import { router } from 'expo-router';
-    // router.push(`/${role.toLowerCase()}`);
+  const handlePressIn = () => {
+    Animated.spring(scaleValue, {
+      toValue: 0.95,
+      useNativeDriver: true,
+      tension: 300,
+      friction: 50,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleValue, {
+      toValue: 1,
+      useNativeDriver: true,
+      tension: 300,
+      friction: 50,
+    }).start();
   };
 
   return (
+    <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: color }]}
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        activeOpacity={0.9}
+      >
+        <View style={styles.iconContainer}>
+          <Text style={styles.iconText}>{icon}</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.buttonText}>{title}</Text>
+          {subtitle && <Text style={styles.buttonText}>{subtitle}</Text>}
+        </View>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
+
+export default function WelcomeScreen() {
+  // Funkce, která se zavolá po stisku tlačítka.
+  const handlePress = (role: string) => {
+    console.log(`Navigace do modulu: ${role}`);
+
+    // Přidáme malé zpoždění pro lepší pocit z animace
+    setTimeout(() => {
+      if (role === 'Řidič') {
+        router.push('/modules/driver');
+      } else if (role === 'Uživatel') {
+        router.push('/modules/user');
+      } else if (role === 'Dopravni_podnik') {
+        router.push('/modules/firm');
+      } else {
+        alert(`Navigace pro roli "${role}" zatím není implementována.`);
+      }
+    }, 150); // 150ms zpoždění pro dokončení animace
+  };
+  return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <Text style={styles.title}>Vítejte</Text>
-        <Text style={styles.subtitle}>Zvolte prosím svou roli pro pokračování</Text>
+      <StatusBar barStyle="dark-content" />
+
+      {/* Background gradient elements */}
+      <View style={styles.backgroundElements}>
+        <View style={styles.gradientCircle1} />
+        <View style={styles.gradientCircle2} />
+        <View style={styles.gradientCircle3} />
       </View>
 
-      <View style={styles.buttonContainer}>
-        <RoleButton
-          title="Uživatel"
-          iconName="account-group"
-          color="#3498db"
-          onPress={() => handlePress('Uživatel')}
-        />
-        <RoleButton
-          title="Dopravní podnik"
-          iconName="office-building"
-          color="#2ecc71"
-          onPress={() => handlePress('Dopravni_podnik')}
-        />
-        <RoleButton
-          title="Řidič"
-          iconName="steering"
-          color="#e67e22"
-          onPress={() => handlePress('Řidič')}
-        />
+      <View style={styles.content}>
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.title}>Vítejte</Text>
+          <Text style={styles.subtitle}>Zvolte prosím svou roli pro pokračování</Text>
+        </View>
+
+        {/* Role Selection Buttons */}
+        <View style={styles.buttonContainer}>
+          <RoleButton
+            title="Uživatel"
+            icon="👥"
+            color="#4ade80"
+            onPress={() => handlePress('Uživatel')}
+          />
+          <RoleButton
+            title="Dopravní"
+            subtitle="podnik"
+            icon="🏢"
+            color="#059669"
+            onPress={() => handlePress('Dopravni_podnik')}
+          />
+          <RoleButton
+            title="Řidič"
+            icon="🚗"
+            color="#4ade80"
+            onPress={() => handlePress('Řidič')}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -88,48 +128,100 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2c3e50',
-    alignItems: 'center',
+    backgroundColor: '#e0f2f1', // Light blue-green background
+    position: 'relative',
+  },
+  backgroundElements: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  gradientCircle1: {
+    position: 'absolute',
+    top: -100,
+    right: -50,
+    width: 200,
+    height: 200,
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    borderRadius: 100,
+  },
+  gradientCircle2: {
+    position: 'absolute',
+    bottom: -80,
+    left: -60,
+    width: 180,
+    height: 180,
+    backgroundColor: 'rgba(52, 211, 153, 0.15)',
+    borderRadius: 90,
+  },
+  gradientCircle3: {
+    position: 'absolute',
+    top: '40%',
+    right: -30,
+    width: 120,
+    height: 120,
+    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+    borderRadius: 60,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 24,
     justifyContent: 'center',
+    zIndex: 1,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 50,
-    paddingHorizontal: 20,
+    marginBottom: 60,
   },
   title: {
-    fontSize: 42,
+    fontSize: 48,
     fontWeight: 'bold',
-    color: '#ecf0f1',
-    marginBottom: 10,
+    color: '#059669', // Green color for title
+    textAlign: 'center',
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 18,
-    color: '#bdc3c7',
+    color: '#374151', // Dark gray for subtitle
     textAlign: 'center',
+    lineHeight: 24,
   },
   buttonContainer: {
-    width: '85%',
+    gap: 16,
   },
   button: {
+    borderRadius: 24,
+    padding: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 25,
-    borderRadius: 15,
-    marginBottom: 20,
-    elevation: 5, // Stín pro Android
-    shadowColor: '#000', // Stín pro iOS
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 6,
   },
-  icon: {
+  iconContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 12,
+    padding: 12,
     marginRight: 20,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconText: {
+    fontSize: 24,
+    color: 'white',
+  },
+  textContainer: {
+    flex: 1,
   },
   buttonText: {
-    color: '#ffffff',
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
