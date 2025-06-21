@@ -38,6 +38,9 @@ export default function WelcomeScreen() {
     if (role === 'Řidič') {
       // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/ridic.js`
       router.push('/modules/driver');
+    } else if (role === 'Uživatel') {
+      // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/dopravni-podnik.js`
+      router.push('/modules/user');
     } else {
       // Zde můžete později přidat navigaci pro ostatní role
       alert(`Navigace pro roli "${role}" zatím není implementována.`);
