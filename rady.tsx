@@ -243,8 +243,8 @@ const timetableData: TimetableData =
       {
         "id": 4,
         "name": "Na verandě",
-        "lat": 50.1105699,
-        "lon": 14.4405269
+        "lat": 50.1110278,
+        "lon": 14.4392309
       },
       {
         "id": 5,
@@ -320,8 +320,8 @@ const timetableData: TimetableData =
             "id": 108,
             "notes": [2],
             "schedule": [
-              {"stopId": 1, "arrival": "16:30", "departure": "16:30"},
-              {"stopId": 2, "arrival": "16:32", "departure": "16:32"},
+              {"stopId": 1, "arrival": "14:56", "departure": "14:56"},
+              {"stopId": 2, "arrival": "14:58", "departure": "14:58"},
               {"stopId": 3, "arrival": "16:34", "departure": "16:34"},
               {"stopId": 4, "arrival": "16:36", "departure": null}
             ]

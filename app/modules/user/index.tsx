@@ -1,3 +1,4 @@
+import service from '@/rady';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from "react";
@@ -20,17 +21,39 @@ export default function Index() {
   const [isExpanded, setIsExpanded] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
   const headerAnim = useRef(new Animated.Value(0)).current; // Pro pohyb jména nahoru
-  const tripSchedules = [
+
+  const [stop, setStop] = useState('Mezi kancly'); // Výchozí zastávka pro vyhledávání
+
+
+  console.log(service.findDeparturesFromStop('Mezi kancly')[0].departureTime);
+
+  const [tripSchedules, setTripSchedules] = useState(
+    service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      arrival: dep.departureTime
+    }))
+
+  );
+
+  /*const tripSchedules = [
     { Linka: "30", arrival: "11:00" },
     { Linka: "16", arrival: "12:00" },
     { Linka: "29", arrival: "13:00" },
     { Linka: "44", arrival: "14:00" },
     { Linka: "84", arrival: "15:00" },
     { Linka: "N97", arrival: "16:00" }
-  ];
+  ];*/
 
   const handleButtonPress = () => {
     console.log("Button pressed, starting animations");
+
+    setTripSchedules(
+      service.findDeparturesFromStop(query).map((dep) => ({
+        Linka: dep.line,
+        arrival: dep.departureTime
+      }))
+    );
+
     setIsExpanded(true);
 
     // Animace jména nahoru - plynulý posun z centra nahoru
@@ -80,7 +103,15 @@ export default function Index() {
   const router = useRouter();
 
   const handleSearch = () => {
-    
+    console.log("Search query:", query);
+    setTripSchedules(
+      service.findDeparturesFromStop(query).map((dep) => ({
+        Linka: dep.line,
+        arrival: dep.departureTime
+          ? new Date(dep.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          : 'N/A'
+      }))
+    );
   };
 
   return (
