@@ -9,7 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.HappyRide",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +24,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.HappyRide"
+      "package": "com.anonymous.HappyRide",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "bundler": "metro",
@@ -46,6 +54,9 @@
         "projectId": "6908d78a-dceb-4e58-b53d-6f74d6a273eb"
       }
     },
-    "owner": "adam14"
+    "owner": "adam14",
+    "updates": {
+      "url": "https://u.expo.dev/6908d78a-dceb-4e58-b53d-6f74d6a273eb"
+    }
   }
 }
