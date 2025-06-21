@@ -70,14 +70,14 @@ class TimetableService {
      * @param afterTime - Volitelný parametr, hledá odjezdy po tomto čase (formát "HH:MM").
      * @returns Pole objektů s informacemi o odjezdech, seřazené podle času.
      */
-    public findDeparturesFromStop(stopName: string, afterTime: string = "00:00"): { line: string; departureTime: string; finalStop: string }[] {
+    public findDeparturesFromStop(stopName: string, afterTime: string = "00:00"): { line: string; service: number, departureTime: string; finalStop: string }[] {
         const stopId = this.stopNameToId.get(stopName);
         if (!stopId) {
             console.error(`Zastávka "${stopName}" nebyla nalezena.`);
             return [];
         }
 
-        const departures: { line: string; departureTime: string; finalStop: string }[] = [];
+        const departures: { line: string; departureTime: string; finalStop: string, service: number }[] = [];
 
         this.data.timetable.lines.forEach(line => {
             line.services.forEach(service => {
@@ -88,6 +88,7 @@ class TimetableService {
                             line: line.lineNumber,
                             departureTime: stopEvent.departure,
                             finalStop: this.stopIdToName.get(finalStopId) || 'Neznámá konečná',
+                            service: service.id
                         });
                     }
                 });
@@ -243,8 +244,8 @@ const timetableData: TimetableData =
       {
         "id": 4,
         "name": "Na verandě",
-        "lat": 50.1105699,
-        "lon": 14.4405269
+        "lat": 50.1110278,
+        "lon": 14.4392309
       },
       {
         "id": 5,
@@ -320,8 +321,8 @@ const timetableData: TimetableData =
             "id": 108,
             "notes": [2],
             "schedule": [
-              {"stopId": 1, "arrival": "16:30", "departure": "16:30"},
-              {"stopId": 2, "arrival": "16:32", "departure": "16:32"},
+              {"stopId": 1, "arrival": "14:56", "departure": "14:56"},
+              {"stopId": 2, "arrival": "14:58", "departure": "14:58"},
               {"stopId": 3, "arrival": "16:34", "departure": "16:34"},
               {"stopId": 4, "arrival": "16:36", "departure": null}
             ]

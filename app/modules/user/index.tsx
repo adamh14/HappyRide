@@ -1,3 +1,4 @@
+import service from '@/rady';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from "react";
@@ -20,22 +21,46 @@ export default function Index() {
   const [isExpanded, setIsExpanded] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
   const headerAnim = useRef(new Animated.Value(0)).current; // Pro pohyb jména nahoru
-  const tripSchedules = [
+
+  const [stop, setStop] = useState('Mezi kancly'); // Výchozí zastávka pro vyhledávání
+
+
+  console.log(service.findDeparturesFromStop('Mezi kancly')[0].departureTime);
+
+  const [tripSchedules, setTripSchedules] = useState(
+    service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      Spoj: dep.service,
+      arrival: dep.departureTime
+    }))
+
+  );
+
+  /*const tripSchedules = [
     { Linka: "30", arrival: "11:00" },
     { Linka: "16", arrival: "12:00" },
     { Linka: "29", arrival: "13:00" },
     { Linka: "44", arrival: "14:00" },
     { Linka: "84", arrival: "15:00" },
     { Linka: "N97", arrival: "16:00" }
-  ];
+  ];*/
 
   const handleButtonPress = () => {
     console.log("Button pressed, starting animations");
+
+    setTripSchedules(
+      service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      Spoj: dep.service,
+      arrival: dep.departureTime
+    }))
+    );
+
     setIsExpanded(true);
 
     // Animace jména nahoru - plynulý posun z centra nahoru
     Animated.timing(headerAnim, {
-      toValue: -150, // Posun z centra nahoru
+      toValue: -130, // Posun z centra nahoru
       duration: 500,
       easing: Easing.out(Easing.quad), // Plynulejší easing
       useNativeDriver: true,
@@ -80,7 +105,23 @@ export default function Index() {
   const router = useRouter();
 
   const handleSearch = () => {
-    
+    console.log("Search query:", query);
+    service.findDeparturesFromStop('Mezi kancly').map((dep) => ({
+      Linka: dep.line,
+      Spoj: dep.service,
+      arrival: dep.departureTime
+    }));
+  };
+
+  const handleZastavka = (Linka: string, spoj: number) => {
+    console.log("Navigating to Zastavky");
+    router.push({
+      pathname: '/modules/zastavky',
+      params: { 
+        idSpoje: spoj, 
+        idLinky: Linka
+      },
+    });
   };
 
   return (
@@ -96,7 +137,7 @@ export default function Index() {
         zIndex: 3,
         transform: [{ translateY: headerAnim }],
         position: 'absolute',
-        top: 140,
+        top: 120,
         left: 0,
         right: 0
       }}>
@@ -193,7 +234,7 @@ export default function Index() {
                 onSubmitEditing={handleSearch}
               />
           </View>
-          
+
           <TouchableOpacity 
             onPress={handleButtonPress}
             style={{
@@ -393,7 +434,7 @@ export default function Index() {
 
                     <TouchableOpacity style={{
                       padding: 0
-                    }}>
+                    }} onPress={() => handleZastavka(trip.Linka, trip.Spoj)}>
                       <MaterialIcons name="more-vert" size={22} color="#a0aec0" />
                     </TouchableOpacity>
                   </View>
