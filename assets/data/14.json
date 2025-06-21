@@ -1,0 +1,318 @@
+{
+  "timetable": {
+    "version": "1.0",
+    "validFrom": "2025-06-21",
+    "carrier": {
+      "id": "SCH-HACK",
+      "name": "SteerCodeHack",
+      "contact": {
+        "email": "dispecink@steercodehack.cz",
+        "website": "www.steercodehack.cz"
+      }
+    },
+    "stops": [
+      {
+        "id": 1,
+        "name": "U pracovního stolu"
+      },
+      {
+        "id": 2,
+        "name": "Mezi kancly"
+      },
+      {
+        "id": 3,
+        "name": "Za WC"
+      },
+      {
+        "id": 4,
+        "name": "Na verandě"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "symbol": "x",
+        "text": "Zastávka na znamení"
+      },
+      {
+        "id": 2,
+        "symbol": "♿",
+        "text": "Garantovaný nízkopodlažní spoj"
+      },
+      {
+        "id": 3,
+        "symbol": "P",
+        "text": "Jede pouze v pátek"
+      }
+    ],
+    "lines": [
+      {
+        "id": "14-SH",
+        "lineNumber": "14",
+        "description": "U pracovního stolu – Na verandě a zpět",
+        "services": [
+          {
+            "id": 101,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "05:30"},
+              {"stopId": 2, "arrival": "05:32", "departure": "05:32"},
+              {"stopId": 3, "arrival": "05:34", "departure": "05:34"},
+              {"stopId": 4, "arrival": "05:36", "departure": null}
+            ]
+          },
+          {
+            "id": 201,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "05:45"},
+              {"stopId": 3, "arrival": "05:47", "departure": "05:47"},
+              {"stopId": 2, "arrival": "05:49", "departure": "05:49"},
+              {"stopId": 1, "arrival": "05:51", "departure": null}
+            ]
+          },
+          {
+            "id": 102,
+            "notes": [],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "06:00"},
+              {"stopId": 2, "arrival": "06:02", "departure": "06:02"},
+              {"stopId": 3, "arrival": "06:04", "departure": "06:04"},
+              {"stopId": 4, "arrival": "06:06", "departure": null}
+            ]
+          },
+          {
+            "id": 202,
+            "notes": [1],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "06:15"},
+              {"stopId": 3, "arrival": "06:17", "departure": "06:17"},
+              {"stopId": 2, "arrival": "06:19", "departure": "06:19"},
+              {"stopId": 1, "arrival": "06:21", "departure": null}
+            ]
+          },
+          {
+            "id": 103,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "06:30"},
+              {"stopId": 2, "arrival": "06:32", "departure": "06:32"},
+              {"stopId": 3, "arrival": "06:34", "departure": "06:34"},
+              {"stopId": 4, "arrival": "06:36", "departure": null}
+            ]
+          },
+          {
+            "id": 203,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "06:45"},
+              {"stopId": 3, "arrival": "06:47", "departure": "06:47"},
+              {"stopId": 2, "arrival": "06:49", "departure": "06:49"},
+              {"stopId": 1, "arrival": "06:51", "departure": null}
+            ]
+          },
+          {
+            "id": 104,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "07:00"},
+              {"stopId": 2, "arrival": "07:02", "departure": "07:02"},
+              {"stopId": 3, "arrival": "07:04", "departure": "07:04"},
+              {"stopId": 4, "arrival": "07:06", "departure": null}
+            ]
+          },
+          {
+            "id": 204,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "07:15"},
+              {"stopId": 3, "arrival": "07:17", "departure": "07:17"},
+              {"stopId": 2, "arrival": "07:19", "departure": "07:19"},
+              {"stopId": 1, "arrival": "07:21", "departure": null}
+            ]
+          },
+          {
+            "id": 105,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "07:30"},
+              {"stopId": 2, "arrival": "07:32", "departure": "07:32"},
+              {"stopId": 3, "arrival": "07:34", "departure": "07:34"},
+              {"stopId": 4, "arrival": "07:36", "departure": null}
+            ]
+          },
+          {
+            "id": 205,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "07:45"},
+              {"stopId": 3, "arrival": "07:47", "departure": "07:47"},
+              {"stopId": 2, "arrival": "07:49", "departure": "07:49"},
+              {"stopId": 1, "arrival": "07:51", "departure": null}
+            ]
+          },
+          {
+            "id": 106,
+            "notes": [],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "08:00"},
+              {"stopId": 2, "arrival": "08:02", "departure": "08:02"},
+              {"stopId": 3, "arrival": "08:04", "departure": "08:04"},
+              {"stopId": 4, "arrival": "08:06", "departure": null}
+            ]
+          },
+          {
+            "id": 206,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "08:20"},
+              {"stopId": 3, "arrival": "08:22", "departure": "08:22"},
+              {"stopId": 2, "arrival": "08:24", "departure": "08:24"},
+              {"stopId": 1, "arrival": "08:26", "departure": null}
+            ]
+          },
+          {
+            "id": 107,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "08:40"},
+              {"stopId": 2, "arrival": "08:42", "departure": "08:42"},
+              {"stopId": 3, "arrival": "08:44", "departure": "08:44"},
+              {"stopId": 4, "arrival": "08:46", "departure": null}
+            ]
+          },
+          {
+            "id": 207,
+            "notes": [],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "09:00"},
+              {"stopId": 3, "arrival": "09:02", "departure": "09:02"},
+              {"stopId": 2, "arrival": "09:04", "departure": "09:04"},
+              {"stopId": 1, "arrival": "09:06", "departure": null}
+            ]
+          },
+          {
+            "id": 108,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "16:30"},
+              {"stopId": 2, "arrival": "16:32", "departure": "16:32"},
+              {"stopId": 3, "arrival": "16:34", "departure": "16:34"},
+              {"stopId": 4, "arrival": "16:36", "departure": null}
+            ]
+          },
+          {
+            "id": 208,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "16:45"},
+              {"stopId": 3, "arrival": "16:47", "departure": "16:47"},
+              {"stopId": 2, "arrival": "16:49", "departure": "16:49"},
+              {"stopId": 1, "arrival": "16:51", "departure": null}
+            ]
+          },
+          {
+            "id": 109,
+            "notes": [2, 3],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "17:00"},
+              {"stopId": 2, "arrival": "17:02", "departure": "17:02"},
+              {"stopId": 3, "arrival": "17:04", "departure": "17:04"},
+              {"stopId": 4, "arrival": "17:06", "departure": null}
+            ]
+          },
+          {
+            "id": 209,
+            "notes": [1, 2, 3],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "17:15"},
+              {"stopId": 3, "arrival": "17:17", "departure": "17:17"},
+              {"stopId": 2, "arrival": "17:19", "departure": "17:19"},
+              {"stopId": 1, "arrival": "17:21", "departure": null}
+            ]
+          },
+          {
+            "id": 110,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "18:00"},
+              {"stopId": 2, "arrival": "18:02", "departure": "18:02"},
+              {"stopId": 3, "arrival": "18:04", "departure": "18:04"},
+              {"stopId": 4, "arrival": "18:06", "departure": null}
+            ]
+          },
+          {
+            "id": 210,
+            "notes": [1],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "18:30"},
+              {"stopId": 3, "arrival": "18:32", "departure": "18:32"},
+              {"stopId": 2, "arrival": "18:34", "departure": "18:34"},
+              {"stopId": 1, "arrival": "18:36", "departure": null}
+            ]
+          },
+          {
+            "id": 111,
+            "notes": [],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "19:00"},
+              {"stopId": 2, "arrival": "19:02", "departure": "19:02"},
+              {"stopId": 3, "arrival": "19:04", "departure": "19:04"},
+              {"stopId": 4, "arrival": "19:06", "departure": null}
+            ]
+          },
+          {
+            "id": 211,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "19:30"},
+              {"stopId": 3, "arrival": "19:32", "departure": "19:32"},
+              {"stopId": 2, "arrival": "19:34", "departure": "19:34"},
+              {"stopId": 1, "arrival": "19:36", "departure": null}
+            ]
+          },
+          {
+            "id": 112,
+            "notes": [2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "21:00"},
+              {"stopId": 2, "arrival": "21:02", "departure": "21:02"},
+              {"stopId": 3, "arrival": "21:04", "departure": "21:04"},
+              {"stopId": 4, "arrival": "21:06", "departure": null}
+            ]
+          },
+          {
+            "id": 212,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "21:30"},
+              {"stopId": 3, "arrival": "21:32", "departure": "21:32"},
+              {"stopId": 2, "arrival": "21:34", "departure": "21:34"},
+              {"stopId": 1, "arrival": "21:36", "departure": null}
+            ]
+          },
+          {
+            "id": 113,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 1, "arrival": null, "departure": "22:30"},
+              {"stopId": 2, "arrival": "22:32", "departure": "22:32"},
+              {"stopId": 3, "arrival": "22:34", "departure": "22:34"},
+              {"stopId": 4, "arrival": "22:36", "departure": null}
+            ]
+          },
+          {
+            "id": 213,
+            "notes": [1, 2],
+            "schedule": [
+              {"stopId": 4, "arrival": null, "departure": "23:00"},
+              {"stopId": 3, "arrival": "23:02", "departure": "23:02"},
+              {"stopId": 2, "arrival": "23:04", "departure": "23:04"},
+              {"stopId": 1, "arrival": "23:06", "departure": null}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
