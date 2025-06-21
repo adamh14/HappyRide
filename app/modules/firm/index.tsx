@@ -95,18 +95,6 @@ export default function Index() {
     }
   };
 
-  const handleCompanyPress = (): void => {
-    const firstDriver = drivers[0];
-    if (firstDriver) {
-      if (showDriverPanel && selectedDriver) {
-        switchDriverContent(firstDriver);
-      } else {
-        setSelectedDriver(firstDriver);
-        showPanel();
-      }
-    }
-  };
-
   const handleClosePanel = (): void => {
     hidePanel();
   };
@@ -184,36 +172,6 @@ export default function Index() {
           {/* Uživatelova pozice */}
           <View style={[styles.userLocation, { top: 200, left: 150 }]}>
             <View style={styles.userDot} />
-          </View>
-        </View>
-      </View>
-
-      {/* Základní panel */}
-      <View style={styles.bottomPanel}>
-        <View style={styles.panelHandle} />
-
-        <View style={styles.defaultPanel}>
-          <Text style={styles.greeting}>Ahoj! 👋</Text>
-
-          <View style={styles.optionsContainer}>
-            <TouchableOpacity 
-              style={styles.optionCard}
-              onPress={handleCompanyPress}
-            >
-              <View style={styles.optionIcon}>
-                <Ionicons name="business" size={24} color="#4CAF50" />
-              </View>
-              <Text style={styles.optionTitle}>Firemní doprava</Text>
-              <Text style={styles.optionSubtitle}>Zobrazit dostupné řidiče</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.optionCard}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="map" size={24} color="#2196F3" />
-              </View>
-              <Text style={styles.optionTitle}>Veřejná doprava</Text>
-              <Text style={styles.optionSubtitle}>Jízdní řády a trasy</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -379,20 +337,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  // Bottom panel styles
-  bottomPanel: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    maxHeight: '40%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
-  },
+  // Panel handle style
   panelHandle: {
     width: 40,
     height: 4,
@@ -401,48 +346,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 15,
   },
-
-  // Default panel styles
-  defaultPanel: {
-    paddingBottom: 20,
-  },
-  greeting: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
-  },
-  optionsContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 20,
-  },
-  optionCard: {
-    flex: 1,
-    backgroundColor: '#F8F9FA',
-    borderRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-  },
-  optionIcon: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 8,
-  },
-  optionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  optionSubtitle: {
-    fontSize: 12,
-    color: '#666',
-    textAlign: 'center',
-  },
-
   // Animovaný panel řidiče
   driverPanelContainer: {
     position: 'absolute',
