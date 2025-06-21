@@ -33,21 +33,21 @@ export default function Index() {
       id: 1,
       name: 'Jan Novák',
       busNumber: '127',
-      station: 'Náměstí Míru',
+      station: 'ID: 1',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face'
     },
     {
       id: 2,
       name: 'Petr Svoboda', 
       busNumber: '284',
-      station: 'Hlavní nádraží',
+      station: 'ID: 2',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face'
     },
     {
       id: 3,
       name: 'Tomáš Dvořák',
       busNumber: '91', 
-      station: 'Wenceslas Square',
+      station: 'ID: 3',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face'
     }
   ];
