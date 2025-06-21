@@ -131,10 +131,10 @@ const { idSpoje, idLinky } = useLocalSearchParams();
       {/* Route Info */}
       <View style={styles.routeInfo}>
         <View style={styles.routeNumber}>
-          <Text style={styles.routeNumberText}>30</Text>
+          <Text style={styles.routeNumberText}>{idLinky}</Text>
         </View>
         <View style={styles.routeDetails}>
-          <Text style={styles.routeText}>Bory → Sídliště Košutka</Text>
+          <Text style={styles.routeText}>{stops[0].stopName} → {stops[stops.length-1].stopName}</Text>
         </View>
       </View>
 
@@ -144,7 +144,7 @@ const { idSpoje, idLinky } = useLocalSearchParams();
           <StopItem
             key={index}
             name={stop.stopName}
-            time={stop.departureTime}
+            time={stop.departureTime.slice(11, 16)}
             lines={stop.lines}
             hasIcon={true}
           />
