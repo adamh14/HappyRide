@@ -1,12 +1,15 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
   Easing,
+  Pressable,
   ScrollView,
   StatusBar,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
@@ -18,9 +21,12 @@ export default function Index() {
   const slideAnim = useRef(new Animated.Value(height)).current;
   const headerAnim = useRef(new Animated.Value(0)).current; // Pro pohyb jména nahoru
   const tripSchedules = [
-    { departure: "07:00", arrival: "11:00" },
-    { departure: "08:00", arrival: "12:00" },
-    { departure: "09:00", arrival: "13:00" }
+    { Linka: "30", arrival: "11:00" },
+    { Linka: "16", arrival: "12:00" },
+    { Linka: "29", arrival: "13:00" },
+    { Linka: "44", arrival: "14:00" },
+    { Linka: "84", arrival: "15:00" },
+    { Linka: "N97", arrival: "16:00" }
   ];
 
   const handleButtonPress = () => {
@@ -29,7 +35,7 @@ export default function Index() {
 
     // Animace jména nahoru - plynulý posun z centra nahoru
     Animated.timing(headerAnim, {
-      toValue: -200, // Posun z centra nahoru
+      toValue: -150, // Posun z centra nahoru
       duration: 500,
       easing: Easing.out(Easing.quad), // Plynulejší easing
       useNativeDriver: true,
@@ -69,20 +75,28 @@ export default function Index() {
       }
     });
   };
+
+  const [query, setQuery] = useState('');
+  const router = useRouter();
+
+  const handleSearch = () => {
+    
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#1a202c' }}>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <StatusBar barStyle="light-content" backgroundColor="#1a202c" />
 
       {/* Fixed Header with Animation - Always Visible */}
       <Animated.View style={{
-        backgroundColor: '#1a202c',
+        backgroundColor: '#FFFFFF',
         paddingTop: 50,
         paddingHorizontal: 20,
-        paddingBottom: 30,
+        paddingBottom: 0,
         zIndex: 3,
         transform: [{ translateY: headerAnim }],
         position: 'absolute',
-        top: 0,
+        top: 140,
         left: 0,
         right: 0
       }}>
@@ -99,18 +113,18 @@ export default function Index() {
               width: 50,
               height: 50,
               borderRadius: 25,
-              backgroundColor: '#2d3748',
+              backgroundColor: '#FFFFFF',
               marginRight: 15,
               justifyContent: 'center',
               alignItems: 'center',
               borderWidth: 2,
               borderColor: '#4a5568'
             }}>
-              <Ionicons name="person" size={28} color="#ffffff" />
+              <Ionicons name="person" size={28} color="#000000" />
             </View>
             <View>
               <Text style={{
-                color: '#ffffff',
+                color: '#000000',
                 fontSize: 20,
                 fontWeight: '600',
                 marginBottom: 2
@@ -118,7 +132,7 @@ export default function Index() {
                 Hi, Aaron
               </Text>
               <Text style={{
-                color: '#a0aec0',
+                color: '#000000',
                 fontSize: 13,
                 fontWeight: '400'
               }}>
@@ -126,7 +140,7 @@ export default function Index() {
               </Text>
             </View>
           </View>
-          <MaterialIcons name="apps" size={28} color="#ffffff" />
+          <MaterialIcons name="apps" size={28} color="#000000" />
         </View>
       </Animated.View>
 
@@ -136,13 +150,54 @@ export default function Index() {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#1a202c',
-          paddingTop: 100 // Prostor pro jméno
+          backgroundColor: '#FFFFFF',
+          paddingBottom: 70,
+          gap: 20,
         }}>
+          {/* search bar */}
+          <View
+            style={{
+              width: '90%',
+              backgroundColor: '#f7fafc',
+              borderRadius: 25,
+              paddingHorizontal: 20,
+              paddingVertical: 12,
+              flexDirection: 'row',
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+              elevation: 3,
+            }}
+          >
+            {/* Ikona je zároveň tlačítko pro odeslání */}
+            <Pressable onPress={handleSearch}>
+              <Ionicons name="search" size={24} color="#a0aec0" />
+            </Pressable>
+
+              {/* Vlastní vstup */}
+              <TextInput
+                style={{
+                  flex: 1,
+                  marginLeft: 10,
+                  color: '#2d3748',        // text
+                  fontSize: 16,
+                  paddingVertical: 0,      // zarovná s ikonou
+                }}
+                placeholder="Search for places or routes"
+                placeholderTextColor="#a0aec0"
+                value={query}
+                onChangeText={setQuery}
+                returnKeyType="search"
+                onSubmitEditing={handleSearch}
+              />
+          </View>
+          
           <TouchableOpacity 
             onPress={handleButtonPress}
             style={{
-              backgroundColor: '#e53e3e',
+              backgroundColor: '#4CAF50',
               paddingHorizontal: 40,
               paddingVertical: 16,
               borderRadius: 25,
@@ -224,150 +279,9 @@ export default function Index() {
             <MaterialIcons name="close" size={24} color="#718096" />
           </TouchableOpacity>
 
-          <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginTop: 24 }}>
             {/* Map Section */}
-            <View style={{
-              margin: 20,
-              marginTop: 35,
-              borderRadius: 20,
-              overflow: 'hidden',
-              backgroundColor: '#e8f4f8',
-              height: 200,
-              position: 'relative',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.1,
-              shadowRadius: 8,
-              elevation: 4
-            }}>
-              {/* Mock Map Background */}
-              <View style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#e8f4f8',
-                position: 'relative'
-              }}>
-                {/* Road lines */}
-                <View style={{
-                  position: 'absolute',
-                  top: 60,
-                  left: 40,
-                  width: 120,
-                  height: 3,
-                  backgroundColor: '#cbd5e0',
-                  borderRadius: 2
-                }} />
-                <View style={{
-                  position: 'absolute',
-                  top: 100,
-                  left: 80,
-                  width: 80,
-                  height: 3,
-                  backgroundColor: '#cbd5e0',
-                  borderRadius: 2,
-                  transform: [{ rotate: '45deg' }]
-                }} />
-                <View style={{
-                  position: 'absolute',
-                  top: 140,
-                  left: 20,
-                  width: 100,
-                  height: 3,
-                  backgroundColor: '#cbd5e0',
-                  borderRadius: 2
-                }} />
-              </View>
-
-              {/* My Location Label */}
-              <View style={{
-                position: 'absolute',
-                top: 20,
-                left: 20,
-                backgroundColor: 'white',
-                paddingHorizontal: 14,
-                paddingVertical: 10,
-                borderRadius: 25,
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.15,
-                shadowRadius: 4,
-                elevation: 3
-              }}>
-                <View style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 5,
-                  backgroundColor: '#48bb78',
-                  marginRight: 10
-                }} />
-                <Text style={{ 
-                  fontSize: 13, 
-                  fontWeight: '500',
-                  color: '#2d3748'
-                }}>My location</Text>
-                <TouchableOpacity style={{ marginLeft: 10 }}>
-                  <MaterialIcons name="close" size={18} color="#718096" />
-                </TouchableOpacity>
-              </View>
-
-              {/* Airport Label */}
-              <View style={{
-                position: 'absolute',
-                bottom: 20,
-                right: 20,
-                backgroundColor: 'white',
-                paddingHorizontal: 14,
-                paddingVertical: 10,
-                borderRadius: 25,
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.15,
-                shadowRadius: 4,
-                elevation: 3
-              }}>
-                <View style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 5,
-                  backgroundColor: '#e53e3e',
-                  marginRight: 10
-                }} />
-                <Text style={{ 
-                  fontSize: 13, 
-                  fontWeight: '500',
-                  color: '#2d3748'
-                }}>Airport</Text>
-                <TouchableOpacity style={{ marginLeft: 10 }}>
-                  <MaterialIcons name="close" size={18} color="#718096" />
-                </TouchableOpacity>
-              </View>
-
-              {/* Connection Line */}
-              <View style={{
-                position: 'absolute',
-                top: '50%',
-                left: '20%',
-                right: '20%',
-                height: 2,
-                backgroundColor: '#4299e1',
-                marginTop: -1
-              }} />
-              <View style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: '#2d3748',
-                marginLeft: -6,
-                marginTop: -6
-              }} />
-            </View>
+          
 
             {/* Trip Schedule Cards */}
             <View style={{ paddingHorizontal: 20 }}>
@@ -375,7 +289,7 @@ export default function Index() {
                 <View key={index} style={{
                   backgroundColor: 'white',
                   borderRadius: 18,
-                  padding: 24,
+                  padding: 18,
                   marginBottom: 16,
                   shadowColor: '#000',
                   shadowOffset: { width: 0, height: 3 },
@@ -397,23 +311,26 @@ export default function Index() {
                         textTransform: 'uppercase',
                         letterSpacing: 0.5
                       }}>
-                        DEPARTURE
+                        Linka
                       </Text>
                       <Text style={{
-                        fontSize: 26,
+                        fontSize: 32,
                         fontWeight: '700',
                         color: '#1a202c'
                       }}>
-                        {trip.departure}
+                        {trip.Linka}
                       </Text>
                     </View>
 
                     <View style={{
                       flexDirection: 'row',
                       alignItems: 'center',
-                      flex: 1.5,
+                      flex: 0.5,
                       justifyContent: 'center',
-                      paddingHorizontal: 20
+                      paddingHorizontal: 0,
+                      paddingRight: 40,
+                      paddingTop: 24
+                      
                     }}>
                       <View style={{
                         height: 2,
@@ -425,7 +342,7 @@ export default function Index() {
                         height: 14,
                         borderRadius: 7,
                         backgroundColor: '#e53e3e',
-                        marginHorizontal: 12
+                        marginHorizontal: 8
                       }} />
                       <View style={{
                         height: 2,
@@ -434,7 +351,7 @@ export default function Index() {
                       }} />
                     </View>
 
-                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                    {/* <View style={{ flex: 1, alignItems: 'flex-end' }}>
                       <Text style={{
                         fontSize: 11,
                         color: '#718096',
@@ -443,10 +360,30 @@ export default function Index() {
                         textTransform: 'uppercase',
                         letterSpacing: 0.5
                       }}>
-                        ARRIVAL
+                        Příjezd
                       </Text>
                       <Text style={{
-                        fontSize: 26,
+                        fontSize: 22,
+                        fontWeight: '700',
+                        color: '#1a202c'
+                      }}>
+                        {trip.arrival}
+                      </Text>
+                    </View> */}
+                    <View style={{ flex: 1, width: 200, alignItems: 'center', paddingLeft: 6 }}>
+                      <Text style={{
+                        fontSize: 11,
+                        color: '#718096',
+                        marginBottom: 6,
+                        fontWeight: '500',
+                        textTransform: 'uppercase',
+                        letterSpacing: 0.5,
+                        
+                      }}>
+                        Linka
+                      </Text>
+                      <Text style={{
+                        fontSize: 32,
                         fontWeight: '700',
                         color: '#1a202c'
                       }}>
@@ -455,8 +392,7 @@ export default function Index() {
                     </View>
 
                     <TouchableOpacity style={{
-                      marginLeft: 20,
-                      padding: 8
+                      padding: 0
                     }}>
                       <MaterialIcons name="more-vert" size={22} color="#a0aec0" />
                     </TouchableOpacity>
@@ -466,7 +402,7 @@ export default function Index() {
             </View>
 
             {/* Pricing and Tickets Section */}
-            <View style={{
+            {/* <View style={{
               flexDirection: 'row',
               paddingHorizontal: 20,
               paddingTop: 10,
@@ -530,10 +466,10 @@ export default function Index() {
                   TICKETS
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* Page Indicator */}
-            <View style={{
+            {/* <View style={{
               flexDirection: 'row',
               justifyContent: 'center',
               paddingBottom: 30
@@ -559,7 +495,7 @@ export default function Index() {
                 backgroundColor: '#cbd5e0',
                 marginHorizontal: 5
               }} />
-            </View>
+            </View> */}
           </ScrollView>
         </View>
       </Animated.View>
