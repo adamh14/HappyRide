@@ -116,7 +116,7 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
 
-      {/* Header */}
+      {/* Headernhinhuhubhu */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <Image 
