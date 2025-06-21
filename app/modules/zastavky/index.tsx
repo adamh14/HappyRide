@@ -2,13 +2,13 @@ import service from '@/rady';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -145,7 +145,7 @@ const { idSpoje, idLinky } = useLocalSearchParams();
             key={index}
             name={stop.stopName}
             time={stop.departureTime}
-            lines={["13, 26"]}
+            lines={stop.lines}
             hasIcon={true}
           />
         ))}

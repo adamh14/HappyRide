@@ -17,6 +17,7 @@ type ServiceStopDetail = {
     isRequestStop: boolean;
     lat: number;
     lon: number;
+    lines: string[];
 };
 
 /**
@@ -197,12 +198,39 @@ class TimetableService {
                 departureTime: formattedDepartureTime,
                 isRequestStop: isRequest,
                 lat: stopObj?.lat ?? 99,
-                lon: stopObj?.lon ?? 99
+                lon: stopObj?.lon ?? 99,
+                lines: findLinesByStopName(stopName)
             };
         });
 
         return details;
     }
+}
+
+export function findLinesByStopName(stopName: string): string[] {
+    // 1. Najít ID zastávky podle jejího názvu
+    const stop = timetableData.timetable.stops.find(s => s.name === stopName);
+    
+    if (!stop) {
+        return []; // Zastávka nebyla nalezena
+    }
+    
+    const stopId = stop.id;
+
+    // 2. Najít všechny linky, které obsahují dané stopId
+    const passingLines = new Set<string>(); // Použití Set pro automatické odstranění duplicit
+
+    for (const line of timetableData.timetable.lines) {
+        for (const service of line.services) {
+            // Použití .some() pro efektivní zjištění, zda zastávka existuje ve spoji
+            if (service.schedule.some(scheduleEntry => scheduleEntry.stopId === stopId)) {
+                passingLines.add(line.lineNumber);
+                break; // Linku jsme našli, můžeme přejít na další
+            }
+        }
+    }
+    
+    return Array.from(passingLines); // Převedení Setu na pole
 }
 
 
