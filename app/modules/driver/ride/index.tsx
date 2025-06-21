@@ -141,6 +141,16 @@ const DriverScreen = () => {
         };
         const currentStopData = scheduleData[currentIndex];
 
+        const url = `http://steerhack.borec.cz:8080/?linka=${idLinky}&spoj=${idSpoje}&lat=${currentCoords.lat}&lon=${currentCoords.lon}`;
+
+        const fetchData = async () => {
+    // Odeslání GET požadavku. Metoda 'GET' je výchozí, není nutné ji specifikovat[5].
+    // await fetch(url);
+        
+};
+
+fetchData();
+
         // 1. Vždy vypočítáme zbývající vzdálenost do cílové zastávky
         const distanceToCurrentStop = getDistance(currentCoords, {
             lat: currentStopData.lat,

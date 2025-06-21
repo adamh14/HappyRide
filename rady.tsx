@@ -17,6 +17,7 @@ type ServiceStopDetail = {
     isRequestStop: boolean;
     lat: number;
     lon: number;
+    lines: string[];
 };
 
 /**
@@ -197,12 +198,39 @@ class TimetableService {
                 departureTime: formattedDepartureTime,
                 isRequestStop: isRequest,
                 lat: stopObj?.lat ?? 99,
-                lon: stopObj?.lon ?? 99
+                lon: stopObj?.lon ?? 99,
+                lines: findLinesByStopName(stopName)
             };
         });
 
         return details;
     }
+}
+
+export function findLinesByStopName(stopName: string): string[] {
+    // 1. Najít ID zastávky podle jejího názvu
+    const stop = timetableData.timetable.stops.find(s => s.name === stopName);
+    
+    if (!stop) {
+        return []; // Zastávka nebyla nalezena
+    }
+    
+    const stopId = stop.id;
+
+    // 2. Najít všechny linky, které obsahují dané stopId
+    const passingLines = new Set<string>(); // Použití Set pro automatické odstranění duplicit
+
+    for (const line of timetableData.timetable.lines) {
+        for (const service of line.services) {
+            // Použití .some() pro efektivní zjištění, zda zastávka existuje ve spoji
+            if (service.schedule.some(scheduleEntry => scheduleEntry.stopId === stopId)) {
+                passingLines.add(line.lineNumber);
+                break; // Linku jsme našli, můžeme přejít na další
+            }
+        }
+    }
+    
+    return Array.from(passingLines); // Převedení Setu na pole
 }
 
 
@@ -284,7 +312,7 @@ const timetableData: TimetableData =
               {"stopId": 1, "arrival": "05:30", "departure": "05:30"},
               {"stopId": 2, "arrival": "05:32", "departure": "05:32"},
               {"stopId": 3, "arrival": "05:34", "departure": "05:34"},
-              {"stopId": 4, "arrival": "05:36", "departure": null}
+              {"stopId": 4, "arrival": "05:36", "departure": "05:36"}
             ]
           },
           {
@@ -294,7 +322,7 @@ const timetableData: TimetableData =
               {"stopId": 4, "arrival": "05:45", "departure": "05:45"},
               {"stopId": 3, "arrival": "05:47", "departure": "05:47", "notes": [1]},
               {"stopId": 2, "arrival": "05:49", "departure": "05:49"},
-              {"stopId": 1, "arrival": "05:51", "departure": null}
+              {"stopId": 1, "arrival": "05:51", "departure": "05:51"}
             ]
           },
           {
@@ -304,7 +332,7 @@ const timetableData: TimetableData =
               {"stopId": 1, "arrival": "06:00", "departure": "06:00"},
               {"stopId": 2, "arrival": "06:02", "departure": "06:02"},
               {"stopId": 3, "arrival": "06:04", "departure": "06:04"},
-              {"stopId": 4, "arrival": "06:06", "departure": null}
+              {"stopId": 4, "arrival": "06:06", "departure": "06:06"}
             ]
           },
           {
@@ -314,7 +342,7 @@ const timetableData: TimetableData =
               {"stopId": 4, "arrival": "06:15", "departure": "06:15"},
               {"stopId": 3, "arrival": "06:17", "departure": "06:17", "notes": [1]},
               {"stopId": 2, "arrival": "06:19", "departure": "06:19", "notes": [1]},
-              {"stopId": 1, "arrival": "06:21", "departure": null}
+              {"stopId": 1, "arrival": "06:21", "departure": "06:21"}
             ]
           },
           {
@@ -324,7 +352,7 @@ const timetableData: TimetableData =
               {"stopId": 1, "arrival": "14:56", "departure": "14:56"},
               {"stopId": 2, "arrival": "14:58", "departure": "14:58"},
               {"stopId": 3, "arrival": "16:34", "departure": "16:34"},
-              {"stopId": 4, "arrival": "16:36", "departure": null}
+              {"stopId": 4, "arrival": "16:36", "departure": "16:36"}
             ]
           },
           {
@@ -334,7 +362,7 @@ const timetableData: TimetableData =
               {"stopId": 4, "arrival": "16:45", "departure": "16:45"},
               {"stopId": 3, "arrival": "16:47", "departure": "16:47"},
               {"stopId": 2, "arrival": "16:49", "departure": "16:49", "notes": [1]},
-              {"stopId": 1, "arrival": "16:51", "departure": null}
+              {"stopId": 1, "arrival": "16:51", "departure": "16:51"}
             ]
           },
           {
@@ -344,7 +372,7 @@ const timetableData: TimetableData =
               {"stopId": 1, "arrival": "22:30", "departure": "22:30"},
               {"stopId": 2, "arrival": "22:32", "departure": "22:32", "notes": [1]},
               {"stopId": 3, "arrival": "22:34", "departure": "22:34", "notes": [1]},
-              {"stopId": 4, "arrival": "22:36", "departure": null}
+              {"stopId": 4, "arrival": "22:36", "departure": "22:36"}
             ]
           },
           {
@@ -354,7 +382,7 @@ const timetableData: TimetableData =
               {"stopId": 4, "arrival": "23:00", "departure": "23:00"},
               {"stopId": 3, "arrival": "23:02", "departure": "23:02", "notes": [1]},
               {"stopId": 2, "arrival": "23:04", "departure": "23:04", "notes": [1]},
-              {"stopId": 1, "arrival": "23:06", "departure": null}
+              {"stopId": 1, "arrival": "23:06", "departure": "23:06"}
             ]
           }
         ]
@@ -370,7 +398,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 4, "arrival": "08:05", "departure": "08:05"},
               {"stopId": 5, "arrival": "08:07", "departure": "08:07"},
-              {"stopId": 2, "arrival": "08:09", "departure": null}
+              {"stopId": 2, "arrival": "08:09", "departure": "08:09"}
             ]
           },
           {
@@ -379,7 +407,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 2, "arrival": "08:15", "departure": "08:15"},
               {"stopId": 5, "arrival": "08:17", "departure": "08:17", "notes": [1]},
-              {"stopId": 4, "arrival": "08:19", "departure": null}
+              {"stopId": 4, "arrival": "08:19", "departure": "08:19"}
             ]
           },
           {
@@ -388,7 +416,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 4, "arrival": "11:05", "departure": "11:05"},
               {"stopId": 5, "arrival": "11:07", "departure": "11:07", "notes": [1]},
-              {"stopId": 2, "arrival": "11:09", "departure": null}
+              {"stopId": 2, "arrival": "11:09", "departure": "11:09"}
             ]
           },
           {
@@ -397,7 +425,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 2, "arrival": "11:15", "departure": "11:15"},
               {"stopId": 5, "arrival": "11:17", "departure": "11:17", "notes": [1]},
-              {"stopId": 4, "arrival": "11:19", "departure": null}
+              {"stopId": 4, "arrival": "11:19", "departure": "11:19"}
             ]
           },
           {
@@ -406,7 +434,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 4, "arrival": "16:35", "departure": "16:35"},
               {"stopId": 5, "arrival": "16:37", "departure": "16:37"},
-              {"stopId": 2, "arrival": "16:39", "departure": null}
+              {"stopId": 2, "arrival": "16:39", "departure": "16:39"}
             ]
           },
           {
@@ -415,7 +443,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 2, "arrival": "16:45", "departure": "16:45"},
               {"stopId": 5, "arrival": "16:47", "departure": "16:47"},
-              {"stopId": 4, "arrival": "16:49", "departure": null}
+              {"stopId": 4, "arrival": "16:49", "departure": "16:49"}
             ]
           },
           {
@@ -424,7 +452,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 4, "arrival": "19:05", "departure": "19:05"},
               {"stopId": 5, "arrival": "19:07", "departure": "19:07", "notes": [1]},
-              {"stopId": 2, "arrival": "19:09", "departure": null}
+              {"stopId": 2, "arrival": "19:09", "departure": "19:09"}
             ]
           },
           {
@@ -433,7 +461,7 @@ const timetableData: TimetableData =
             "schedule": [
               {"stopId": 2, "arrival": "19:15", "departure": "19:15"},
               {"stopId": 5, "arrival": "19:17", "departure": "19:17", "notes": [1]},
-              {"stopId": 4, "arrival": "19:19", "departure": null}
+              {"stopId": 4, "arrival": "19:19", "departure": "19:19"}
             ]
           }
         ]
