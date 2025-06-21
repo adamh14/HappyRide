@@ -58,7 +58,7 @@ export default function Index() {
 
     // Animace jména nahoru - plynulý posun z centra nahoru
     Animated.timing(headerAnim, {
-      toValue: -150, // Posun z centra nahoru
+      toValue: -130, // Posun z centra nahoru
       duration: 500,
       easing: Easing.out(Easing.quad), // Plynulejší easing
       useNativeDriver: true,
@@ -127,7 +127,7 @@ export default function Index() {
         zIndex: 3,
         transform: [{ translateY: headerAnim }],
         position: 'absolute',
-        top: 140,
+        top: 120,
         left: 0,
         right: 0
       }}>
@@ -224,7 +224,7 @@ export default function Index() {
                 onSubmitEditing={handleSearch}
               />
           </View>
-          
+
           <TouchableOpacity 
             onPress={handleButtonPress}
             style={{
