@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React from 'react';
 import {
   SafeAreaView,
@@ -34,6 +35,13 @@ export default function WelcomeScreen() {
   // V reálné aplikaci by zde byla logika pro navigaci.
   const handlePress = (role: string) => {
     console.log(`Navigace do modulu: ${role}`);
+    if (role === 'Řidič') {
+      // Pomocí router.push() přejdeme na obrazovku definovanou souborem `app/ridic.js`
+      router.push('/modules/driver');
+    } else {
+      // Zde můžete později přidat navigaci pro ostatní role
+      alert(`Navigace pro roli "${role}" zatím není implementována.`);
+    }
     // Příklad s navigací (pokud používáte Expo Router):
     // import { router } from 'expo-router';
     // router.push(`/${role.toLowerCase()}`);
