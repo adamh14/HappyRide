@@ -1,22 +1,31 @@
+import { Service } from '@/global';
+import service from '@/rady';
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import { router } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Button,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 // Statická data pro spoje, která si později můžete nahradit daty z API
-const SPOJE = [
+
+const LINKY = service.getLines().map((line) => ({
+  id: line.lineNumber,
+  nazev: `Linka ${line.lineNumber}: ${line.description}`,
+}));
+
+/*const SPOJE = [
   { id: '1', nazev: 'Linka 101: Brno -> Kuřim' },
   { id: '2', nazev: 'Linka 44: Mendlovo nám. -> Zvonařka' },
   { id: '3', nazev: 'Linka 84: Stará osada -> Zvonařka' },
   { id: '4', nazev: 'Noční linka N97: Jírovcova -> Hlavní nádraží' },
-];
+];*/
 
 // Správný PIN pro přihlášení (pro demonstrační účely)
 const SPRAVNY_PIN = '1234';
@@ -26,7 +35,15 @@ const ObrazovkaProRidice = () => {
   const [pin, setPin] = useState('');
   const [jePrihlasen, setJePrihlasen] = useState(false);
   // Předvybereme první spoj ze seznamu
-  const [vybranySpoj, setVybranySpoj] = useState(SPOJE[0]?.id);
+  const [vybranaLinka, setVybranaLinka] = useState<string>(LINKY[0]?.id);
+  const [vybranySpoj, setVybranySpoj] = useState<number>();
+
+  const [spoje, setSpoje] = useState<Service[]>([]);
+
+  useEffect(() => {
+    const spoje = service.getServicesForLine(vybranaLinka);
+    setSpoje(spoje ?? []);
+  }, [vybranaLinka]);
 
   // Funkce pro zpracování přihlášení
   const handleLogin = () => {
@@ -40,9 +57,38 @@ const ObrazovkaProRidice = () => {
 
   // Funkce pro potvrzení výběru spoje
   const handlePotvrditSpoj = () => {
-    const spoj = SPOJE.find(s => s.id === vybranySpoj);
+    const linka = LINKY.find(l => l.id === vybranaLinka);
+    const spoj = spoje.find(s => s.id === vybranySpoj);
     if(!spoj) return;
-    Alert.alert('Spoj vybrán', `Chystáte se jet spoj: ${spoj.nazev}`);
+    Alert.alert(
+      'Potvrzení spoje',
+      `Chcete opravdu jet linku ${linka?.nazev} a spoj: ${spoj.id}?`,
+      [
+      {
+        text: 'Ne',
+        style: 'cancel',
+        onPress: () => {
+        // Pokud uživatel zvolí "Ne", nic se nestane
+        return;
+        },
+      },
+      {
+        text: 'Ano',
+        onPress: () => {
+        //router.push('/modules/driver/ride');
+          router.push({
+            pathname: '/modules/driver/ride',
+            params: { 
+              idSpoje: spoj.id, 
+              idLinky: vybranaLinka
+            },
+          });
+        },
+      },
+      ],
+      { cancelable: false }
+    );
+    return;
     // Zde by následovala další logika, např. přechod na další obrazovku
   };
 
@@ -71,17 +117,27 @@ const ObrazovkaProRidice = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
-        <Text style={styles.title}>Vyberte spoj, který pojedete</Text>
+        <Text style={styles.title}>Vyberte linku a spoj, který pojedete</Text>
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={vybranySpoj}
-            onValueChange={(itemValue) => setVybranySpoj(itemValue)}
+            onValueChange={(itemValue) => setVybranaLinka(itemValue)}
             style={styles.picker}
           >
-            {SPOJE.map((spoj) => (
+            {LINKY.map((spoj) => (
               <Picker.Item key={spoj.id} label={spoj.nazev} value={spoj.id} />
             ))}
           </Picker>
+          <Picker
+            selectedValue={vybranaLinka}
+            onValueChange={(itemValue) => setVybranySpoj(itemValue)}
+            style={styles.picker
+          }>
+            {spoje.map((spoj) => (
+              <Picker.Item key={spoj.id} label={`Spoj ${spoj.id}`} value={spoj.id} />
+            ))}
+          </Picker>
+  
         </View>
         <Button title="Potvrdit a pokračovat" onPress={handlePotvrditSpoj} />
       </View>
